@@ -1,32 +1,24 @@
 <?php
-
 include "./templates/header.php";
 include "./classes/class.db.php";
-
-$mostrarPersonas = new DBforms();
-
-const OBJETO = "personas";
-const MENU = "index.php";
-
+$mostrarVendedores = new DBforms();
 // Muestro la vista en HTML
 ?>
-
 <div class="caja-contenedora">
     <div class="caja-seleccion">
-        <a class="button" href="./"<?php MENU ?> >Menú</a>
+        <a class="button" href="./index.php">Menú</a>
     </div>
     <h3>
-        Mostrar <?php echo OBJETO ?>
+        Mostrar vendedores
     </h3>
+    <hr>
 
-    <hr> 
-    
     <?php 
-    $listaPersonas = $mostrarPersonas->obtenerPersonas();
-    //echo "listaPersonas: ";
-    //var_dump($listaPersonas);
+    $listaVendedores = $mostrarVendedores->obtenerVendedores();
+    //echo "listaVendedores: ";
+    //var_dump($listaVendedores);
 
-    foreach ($listaPersonas as $clave => $valor) {
+    foreach ($listaVendedores as $clave => $valor) {
         //echo "valor: ";
         //var_dump($valor);
         foreach ($valor as $key => $value) {

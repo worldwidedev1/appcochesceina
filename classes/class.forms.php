@@ -23,6 +23,10 @@ class Formulario {
         $this->dir_proyecto = '/tmp/';
         $this->array_mime_types = array('image/png', 'image/jpg', 'image/jpeg', 'image/gif', 'image/svg', 'image/webp', 'image/ico');
         $this->array_extensiones_permitidas = array('png', 'jpg', 'jpeg', 'gif', 'svg', 'webp', 'ico');
+        $this->array_personas_validas = array(
+            'comprador' => 'Comprador', 
+            'vendedor'  => 'Vendedor'
+        );
     }
 
     /**

@@ -3,9 +3,9 @@
 include "./templates/header.php";
 include "./classes/class.db.php";
 
-$mostrarPersonas = new DBforms();
+$mostrarCoches = new DBforms();
 
-const OBJETO = "personas";
+const OBJETO = "coches";
 const MENU = "index.php";
 
 // Muestro la vista en HTML
@@ -22,11 +22,11 @@ const MENU = "index.php";
     <hr> 
     
     <?php 
-    $listaPersonas = $mostrarPersonas->obtenerPersonas();
-    //echo "listaPersonas: ";
-    //var_dump($listaPersonas);
+    $listaCoches = $mostrarCoches->obtenerCoches();
+    //echo "listaCoches: ";
+    //var_dump($listaCoches);
 
-    foreach ($listaPersonas as $clave => $valor) {
+    foreach ($listaCoches as $clave => $valor) {
         //echo "valor: ";
         //var_dump($valor);
         foreach ($valor as $key => $value) {

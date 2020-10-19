@@ -101,11 +101,13 @@ button.submit:hover {
 .valid-input {
 	color: green;
 	border-color: green !important;
+	background-color: #eee;
 }
 
 .error-input {
 	color: red;
 	border-color: red !important;
+	background-color: #eee;
 }
 
 p.success.small {

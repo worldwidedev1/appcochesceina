@@ -8,7 +8,7 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
     />
     <link rel="stylesheet" href="./assets/css/styles.css" />
-    <title>APP GESTIÓN PACIENTES</title>
+    <title>APP GESTIÓN COCHES</title>
 </head>
 <body>
     

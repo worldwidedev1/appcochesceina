@@ -1,0 +1,19 @@
+PENDIENTE
+
+CLASES:
+Formulario:                 ok
+Base de datos:              ok
+
+FORMULARIOS:
+Introducir comprador:       ok
+Introducir vendedor:        ok
+Introducir coches:          se debe seleccionar con anterioridad al usuario (comprador o vendedor)
+Vista comprador:            falta conectar con personas o cambiar sentencia SQL
+Vista vendedor:             ídem anterior
+
+MEDIA:
+Introducir media:           
+
+ESTÉTICA:
+Visualización final:        
+

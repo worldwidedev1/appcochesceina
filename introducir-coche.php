@@ -39,23 +39,46 @@ $existeValidacion = !empty($formularioIntroducir) && $_SERVER["REQUEST_METHOD"] 
         method="post"
     >
 
-        <?php
-            $formularioIntroducir->showInput(
+        <label for="usuario">¿Qué usuario eres?
+        </label>
+        <select id="usuario" name="usuario" >
+            <option value="" selected disabled>--Por favor, escoge una opción--</option>
+
+            <?php foreach ($formularioIntroducir->array_personas_validas as $key => $value) : ?>
+                    <option value="<?php echo $key; ?>"><?php echo $value ?></option>
+            <?php endforeach;
+
+            $usuario = $_POST["usuario"]; 
+
+            if ($usuario === "comprador") {
+                $formularioIntroducir->showInput(
                 $type = "number",
-                $id = "idVendedor",
-                $name = "idVendedor",
-                $placeholder = "Número del Vendedor",
-                $label = "Número del Vendedor:",
-                $validacion = $existeValidacion
-            );
-            $formularioIntroducir->showInput(
-                $type = "number",
-                $id = "idComprador",
+                $idComprador = "idComprador",
                 $name = "idComprador",
                 $placeholder = "Número del Comprador",
                 $label = "Número del Comprador:",
                 $validacion = $existeValidacion
             );
+            $idVendedor = null;
+            } elseif ($usuario === "vendedor") {
+                $formularioIntroducir->showInput(
+                $type = "number",
+                $idVendedor = "idVendedor",
+                $name = "idVendedor",
+                $placeholder = "Número del Vendedor",
+                $label = "Número del Vendedor:",
+                $validacion = $existeValidacion
+            );
+            $idComprador = null;
+            } else {
+                $placeholder = "Debes seleccionar un usuario antes";
+            }
+            
+            ?>
+
+        </select>
+
+        <?php
             $formularioIntroducir->showInput(
                 $type = "text",
                 $id = "marca",

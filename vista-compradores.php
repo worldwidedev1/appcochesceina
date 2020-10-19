@@ -12,13 +12,19 @@ $mostrarCompradores = new DBforms();
         Mostrar compradores
     </h3>
     <hr>
+
     <?php 
     $listaCompradores = $mostrarCompradores->obtenerCompradores();
-    echo "<p>";
-    while ($valores = mysqli_fetch_array($query)) {
-        // En esta sección estamos llenando el select con datos extraidos de una base de datos.
-        echo $valores['idComprador'] . ' ' . $valores['idPersona']; // .' '.$valores['nombre'].' '.$valores['apellidos'].' '.$valores['dni'];
-    }
-    echo "</p>";
+    //echo "listaCompradores: ";
+    //var_dump($listaCompradores);
+
+    foreach ($listaCompradores as $clave => $valor) {
+        //echo "valor: ";
+        //var_dump($valor);
+        foreach ($valor as $key => $value) {
+            echo $value . " ";
+        }
+        echo '<br />';
+    };
     ?>
 </div>

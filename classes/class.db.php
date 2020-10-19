@@ -245,7 +245,7 @@ class DBforms {
      * @param int $precio
      */
     // idVendedor, idComprador, marca, modelo, combustible, color, precio
-    public function enviarCoche($datos, $idVendedor=null, $idComprador=null, $marca, $modelo, $combustible, $color, $precio)
+    public function enviarCoche($datos, $idVendedor=0, $idComprador=0, $marca, $modelo, $combustible, $color, $precio)
     {
         $conexion = $this->crearConexion();
         $enviarCoche = $conexion->prepare("INSERT INTO Coches(
@@ -429,7 +429,7 @@ class DBforms {
 
         // Prepara una plantilla de la sentencia SQL, detallando los campos por este motivo (en lugar de poner *)
         $prepare = $conexion->prepare("SELECT 
-            id, 
+            idCoche, 
             Vendedores_idVendedor, 
             Compradores_idComprador, 
             marca, 
@@ -449,9 +449,9 @@ class DBforms {
 
         // Vincula variables a una sentencia preparada para el almacenamiento de resultados
         $prepare->bind_result(
-            $id, 
-            $idVendedor, 
-            $idComprador, 
+            $idCoche, 
+            $Vendedores_idVendedor, 
+            $Compradores_idComprador, 
             $marca, 
             $modelo, 
             $combustible, 
@@ -460,10 +460,18 @@ class DBforms {
         );
 
         // Obtiene los resultados de una sentencia preparada en las variables vinculadas
-        //$miArray = array();
-        while ($prepare->fetch()) { // fetch_object
-            //$miArray[$id] = $marca; //mostra la fila???
-            printf("%i %i %i %s %s %s %s %i\n", $id, $idVendedor, $idComprador, $marca, $modelo, $combustible, $color, $precio);
+        $miArray = array();
+        while ($prepare->fetch()) {
+            array_push($miArray,[
+                "idCoche" => $idCoche, 
+                "Vendedores_idVendedor" => $Vendedores_idVendedor, 
+                "Compradores_idComprador" => $Compradores_idComprador, 
+                "marca" => $marca, 
+                "modelo" => $modelo, 
+                "combustible" => $combustible, 
+                "color" => $color, 
+                "precio" => $precio
+            ]);
         }
        
         // Cierro conexión
@@ -479,28 +487,29 @@ class DBforms {
         $conexion = $this->crearConexion();
 
         // Prepara una plantilla de la sentencia SQL 
-        $prepare = $conexion->prepare("SELECT id, Personas_idPersona FROM Vendedores");
+        $prepare = $conexion->prepare("SELECT idVendedor, Personas_idPersona FROM Vendedores");
 
-        // Comprueba si hay 
+        // Comprueba si hay Vendedores
         if (!$prepare) {
+            echo "Comprueba si hay vendedores: ";
             //var_dump($conexion->error_list); /*** */
+            throw new Exception($conexion->error_list);
         }
 
         // Ejecuta la sentencia
         $prepare->execute();
 
         // Vincula variables a una sentencia preparada para el almacenamiento de resultados
-        $prepare->bind_result($id, $idVendedor);
+        $prepare->bind_result($idVendedor, $Personas_idPersona);
 
         // Obtiene los resultados de una sentencia preparada en las variables vinculadas
-        //$miArray = array();
+        $miArray = array();
         while ($prepare->fetch()) {
-            //$miArray[$id] = $nombre;
-            printf("%s %s\n", $id, $idVendedor);
+            array_push($miArray,[
+                "idVendedor" => $idVendedor, 
+                "Personas_idPersona" => $Personas_idPersona
+            ]);
         }
-        //echo "<pre>"; /*** */
-        //print_r($miArray); /*** */
-        //echo "</pre>"; /*** */
        
         // Cierro conexión
         $conexion->close();
@@ -515,9 +524,10 @@ class DBforms {
         $conexion = $this->crearConexion();
 
         // Prepara una plantilla de la sentencia SQL 
-        $prepare = $conexion->prepare("SELECT id, Personas_idPersona FROM Compradores");
+        //select idComprador, nombre, apellidos, dni from Personas join Compradores on Personas.idPersona = Compradores.idComprador;
+        $prepare = $conexion->prepare("SELECT idComprador, Personas_idPersona FROM Compradores");
 
-        // Comprueba si hay 
+        // Comprueba si hay Compradores
         if (!$prepare) {
             echo "Comprueba si hay compradores: ";
             $this->showPre($conexion->error_list);
@@ -528,17 +538,18 @@ class DBforms {
         $prepare->execute();
 
         // Vincula variables a una sentencia preparada para el almacenamiento de resultados
-        $prepare->bind_result($id, $idComprador);
+        $prepare->bind_result($idComprador, $Personas_idPersona);
 
         // Obtiene los resultados de una sentencia preparada en las variables vinculadas
-        //$miArray = array();
+        $miArray = array();
         while ($prepare->fetch()) {
-            //$miArray[$id] = $nombre;
-            printf("%s %s\n", $id, $idComprador);
+            array_push($miArray,[
+                "idComprador" => $idComprador, 
+                "Personas_idPersona" => $Personas_idPersona
+            ]);
         }
-        //echo "<pre>"; /*** */
-        //print_r($miArray); /*** */
-        //echo "</pre>"; /*** */
+        //echo "obtenerCompradores: " . "<br />"; /*** */
+        //$this->showPre($miArray); /*** */
        
         // Cierro conexión
         $conexion->close();
@@ -569,37 +580,21 @@ class DBforms {
         $prepare->bind_result($idPersona, $nombre, $apellidos, $dni);
 
         // Obtiene los resultados de una sentencia preparada en las variables vinculadas
-        //$miArray = array();
+        $miArray = array();
         while ($prepare->fetch()) {
-            //$miArray[$id] = $nombre;
-            printf("%i %s %s %s\n", $idPersona, $nombre, $apellidos, $dni);
+            array_push($miArray,[
+                "id" => $idPersona, 
+                "nombre" => $nombre, 
+                "apellidos" => $apellidos, 
+                "dni" => $dni
+            ]);
         }
-
-        /*
-        $fila = $prepare->fetch_array(MYSQLI_NUM);
-        $i = 0;
-        while ($fila != null) {
-            //$miArray[$id] = $nombre;
-            printf("mostra: %s\r\n", $fila[$i]);
-            $i++;
-        }
-        */
-
-        /*while ($valores = mysqli_fetch_array($prepare)) {
-            // En esta sección estamos llenando el select con datos extraidos de una base de datos.
-            //echo $valores['idPersona'].' '.$valores['nombre'].' '.$valores['apellidos'].' '.$valores['dni'];
-            $this->showPre($valores);
-            echo $valores;
-        }*/
-
-        //echo "<pre>"; /*** */
-        //print_r($miArray); /*** */
-        //echo "</pre>"; /*** */
+        //var_dump($miArray);
        
         // Cierro conexión
         $conexion->close();
 
-        //return $miArray;
+        return $miArray;
     }
     
     /**
