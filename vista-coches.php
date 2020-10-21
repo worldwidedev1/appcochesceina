@@ -5,18 +5,15 @@ include "./classes/class.db.php";
 
 $mostrarCoches = new DBforms();
 
-const OBJETO = "coches";
-const MENU = "index.php";
-
 // Muestro la vista en HTML
 ?>
 
 <div class="caja-contenedora">
     <div class="caja-seleccion">
-        <a class="button" href="./"<?php MENU ?> >Menú</a>
+        <a class="button" href="./index.php" >Menú</a>
     </div>
     <h3>
-        Mostrar <?php echo OBJETO ?>
+        Mostrar coches
     </h3>
 
     <hr> 

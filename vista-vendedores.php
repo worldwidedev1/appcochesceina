@@ -13,18 +13,39 @@ $mostrarVendedores = new DBforms();
     </h3>
     <hr>
 
+    <table>
+    
     <?php 
     $listaVendedores = $mostrarVendedores->obtenerVendedores();
     //echo "listaVendedores: ";
     //var_dump($listaVendedores);
 
-    foreach ($listaVendedores as $clave => $valor) {
-        //echo "valor: ";
-        //var_dump($valor);
-        foreach ($valor as $key => $value) {
-            echo $value . " ";
+    if(!empty($listaVendedores)){
+        // Recogemos los títulos de los campos para mostrarlos
+        $campos = array_keys($listaVendedores[0]);
+        //var_dump($campos);
+        echo "<thead><tr> ";
+        for($i=0; $i < count($campos); $i++){
+            echo "<th><b>" . $campos[$i] . "</b></th>";
         }
-        echo '<br />';
-    };
+        echo "</tr></thead><tbody>";
+
+        //echo '<br />';
+
+        // Mostramos los datos de los registros en cada campo
+        foreach ($listaVendedores as $clave => $valor) {
+            //echo "valor: ";
+            //var_dump($valor);
+
+            echo "<tr> ";
+            foreach ($valor as $key => $value) {
+                echo "<td>" . $value . "</td>";
+            }
+            echo "</tr>";
+        };
+        echo "</tbody>";
+    }
     ?>
+    
+    </table>
 </div>

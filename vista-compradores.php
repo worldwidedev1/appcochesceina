@@ -1,7 +1,9 @@
 <?php
 include "./templates/header.php";
 include "./classes/class.db.php";
+
 $mostrarCompradores = new DBforms();
+
 // Muestro la vista en HTML
 ?>
 <div class="caja-contenedora">
@@ -13,18 +15,39 @@ $mostrarCompradores = new DBforms();
     </h3>
     <hr>
 
+    <table>
+    
     <?php 
     $listaCompradores = $mostrarCompradores->obtenerCompradores();
     //echo "listaCompradores: ";
     //var_dump($listaCompradores);
 
-    foreach ($listaCompradores as $clave => $valor) {
-        //echo "valor: ";
-        //var_dump($valor);
-        foreach ($valor as $key => $value) {
-            echo $value . " ";
+    if(!empty($listaCompradores)){
+        // Recogemos los títulos de los campos para mostrarlos
+        $campos = array_keys($listaCompradores[0]);
+        //var_dump($campos);
+        echo "<thead><tr> ";
+        for($i=0; $i < count($campos); $i++){
+            echo "<th><b>" . $campos[$i] . "</b></th>";
         }
-        echo '<br />';
-    };
+        echo "</tr></thead><tbody>";
+
+        //echo '<br />';
+
+        // Mostramos los datos de los registros en cada campo
+        foreach ($listaCompradores as $clave => $valor) {
+            //echo "valor: ";
+            //var_dump($valor);
+
+            echo "<tr> ";
+            foreach ($valor as $key => $value) {
+                echo "<td>" . $value . "</td>";
+            }
+            echo "</tr>";
+        };
+        echo "</tbody>";
+    }
     ?>
+    
+    </table>
 </div>

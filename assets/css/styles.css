@@ -1,6 +1,6 @@
 * {
 	box-sizing: border-box;
-	width: 90%;
+	max-width: 90%;
 	margin: auto;
 }
 
@@ -135,4 +135,29 @@ p.error.small {
 
 #guardado {
 	text-align: center;
+}
+
+table tbody tr:nth-child(odd) {
+	background: #ccc;
+}
+
+table tbody tr:nth-child(even) {
+	background: #eee;
+}
+
+table thead {
+  background: #444;
+  color: #fff;
+  font-size: 18px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 90%;
+}
+
+table tr {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }

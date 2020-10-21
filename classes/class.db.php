@@ -487,7 +487,8 @@ class DBforms {
         $conexion = $this->crearConexion();
 
         // Prepara una plantilla de la sentencia SQL 
-        $prepare = $conexion->prepare("SELECT idVendedor, Personas_idPersona FROM Vendedores");
+        //SELECT idVendedor, Personas_idPersona FROM Vendedores
+        $prepare = $conexion->prepare("select idVendedor, nombre, apellidos, dni from Personas JOIN Vendedores on Personas.idPersona = Vendedores.Personas_idPersona");
 
         // Comprueba si hay Vendedores
         if (!$prepare) {
@@ -500,14 +501,16 @@ class DBforms {
         $prepare->execute();
 
         // Vincula variables a una sentencia preparada para el almacenamiento de resultados
-        $prepare->bind_result($idVendedor, $Personas_idPersona);
+        $prepare->bind_result($idVendedor, $nombre, $apellidos, $dni);
 
         // Obtiene los resultados de una sentencia preparada en las variables vinculadas
         $miArray = array();
         while ($prepare->fetch()) {
             array_push($miArray,[
-                "idVendedor" => $idVendedor, 
-                "Personas_idPersona" => $Personas_idPersona
+                "idVendedor"    => $idVendedor, 
+                "nombre"        => $nombre,
+                "apellidos"     => $apellidos,
+                "dni"           => $dni
             ]);
         }
        
@@ -524,8 +527,9 @@ class DBforms {
         $conexion = $this->crearConexion();
 
         // Prepara una plantilla de la sentencia SQL 
-        //select idComprador, nombre, apellidos, dni from Personas join Compradores on Personas.idPersona = Compradores.idComprador;
-        $prepare = $conexion->prepare("SELECT idComprador, Personas_idPersona FROM Compradores");
+        //SELECT idComprador, Personas_idPersona FROM Compradores
+        //select idComprador, nombre, apellidos, dni from Personas join Compradores on Personas.idPersona = Compradores.Personas_idPersona
+        $prepare = $conexion->prepare("select idComprador, nombre, apellidos, dni from Personas JOIN Compradores on Personas.idPersona = Compradores.Personas_idPersona;");
 
         // Comprueba si hay Compradores
         if (!$prepare) {
@@ -538,14 +542,17 @@ class DBforms {
         $prepare->execute();
 
         // Vincula variables a una sentencia preparada para el almacenamiento de resultados
-        $prepare->bind_result($idComprador, $Personas_idPersona);
+        $prepare->bind_result($idComprador, $nombre, $apellidos, $dni);
 
         // Obtiene los resultados de una sentencia preparada en las variables vinculadas
         $miArray = array();
         while ($prepare->fetch()) {
             array_push($miArray,[
-                "idComprador" => $idComprador, 
-                "Personas_idPersona" => $Personas_idPersona
+                "idComprador"   => $idComprador, 
+                "nombre"        => $nombre,
+                "apellidos"     => $apellidos,
+                "dni"           => $dni
+
             ]);
         }
         //echo "obtenerCompradores: " . "<br />"; /*** */
