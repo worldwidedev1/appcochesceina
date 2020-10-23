@@ -4,13 +4,11 @@ include "./classes/class.db.php";
 
 $mostrarVendedores = new DBforms();
 
+include "./templates/body.php";
 // Muestro la vista en HTML
 ?>
 
 <div class="caja-contenedora">
-    <div class="caja-seleccion">
-        <a class="button" href="./index.php">Menú</a>
-    </div>
     <h3>
         Mostrar vendedores
     </h3>
@@ -26,7 +24,7 @@ $mostrarVendedores = new DBforms();
 
     if(!empty($listaVendedores)){
         // Recogemos los títulos de los campos para mostrarlos
-        $campos = array_keys($listaVendedores[0]);
+        $titulos = array_keys($listaVendedores[0]);
         //var_dump($titulos);
         echo "<thead><tr> ";
         foreach ($titulos as $titulo) {

@@ -31,14 +31,11 @@ $existeValidacion = !empty($formularioIntroducir) && $metodoPost ? true : false;
 //print_r($formularioIntroducir); /*** */
 //echo "</pre>"; /*** */
 
-
+include "./templates/body.php";
 // Muestro el formulario en HTML
 ?>
 
 <div class="caja-contenedora">
-    <div class="caja-seleccion">
-        <a class="button" href="./index.php" >Menú</a>
-    </div>
     <h3>
         Introducir comprador
     </h3>

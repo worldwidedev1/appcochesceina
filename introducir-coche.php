@@ -17,13 +17,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 // Compruebo si la clase existe y estamos en método POST
 $existeValidacion = !empty($formularioIntroducir) && $_SERVER["REQUEST_METHOD"] === "POST" ? true : false;
 
+include "./templates/body.php";
 // Muestro el formulario en HTML
 ?>
 
 <div class="caja-contenedora">
-    <div class="caja-seleccion">
-        <a class="button" href="./index.php" >Menú</a>
-    </div>
     <h3>
         Introducir coche
     </h3>
@@ -108,10 +106,6 @@ $existeValidacion = !empty($formularioIntroducir) && $_SERVER["REQUEST_METHOD"] 
 <?php
 // Compruebo si hay errores
 $errores = $formularioIntroducir->hayErrores();
-
-echo "<pre>";
-print_r($formularioIntroducir->datosRecibidos);
-echo "</pre>";
 
 // Si no hay errores y se ha validado (la clase existe y estamos en método POST)
 if (!$errores && $existeValidacion) {

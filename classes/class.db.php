@@ -177,13 +177,13 @@ class DBforms {
         // No contiene los almacenados en BD, sólo los de memoria temporal de programa /*** */
         $vendedor_array = array();
         $vendedor_array[] = $id;
-        var_dump($vendedor_array);
-        $this->showPre($vendedor_array);
+        //var_dump($vendedor_array);
+        //$this->showPre($vendedor_array);
 
         // Recoge los id de los vendedores en un array que proporciona la consulta a la BD
         $vendedorIds = $this->obtenerVendedores();
-        var_dump($vendedorIds);
-        $this->showPre($vendedorIds);
+        //var_dump($vendedorIds);
+        //$this->showPre($vendedorIds);
 
         // Cierro conexión
         $enviarVendedor->close();
@@ -268,8 +268,6 @@ class DBforms {
             precio
             ) VALUES (?, ?, ?, ?, ?, ?);");
 
-            $this->showPre($enviarCoche);
-
         $enviarCoche->bind_param(
             $datos,
             $Vendedores_idVendedor,
@@ -280,8 +278,6 @@ class DBforms {
             $precio
         );
 
-        $this->showPre($enviarCoche);
-
         // Compruebo si la conexión se establece bien
         if (!$enviarCoche) {
             throw new Exception($conexion->error_list);
@@ -289,8 +285,6 @@ class DBforms {
 
         // Ejecuto la query
         $enviarCoche->execute();
-
-        $this->showPre($enviarCoche);
 
         // Compruebo si se envia y no hay error
         if (!$enviarCoche) {

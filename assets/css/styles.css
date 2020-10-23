@@ -13,14 +13,12 @@ h1,h2,h3,h4,h5,h6,body {
 h1 {
 	margin-bottom: 0;
 	font-size: 48px;
+	text-shadow: #999 0px 0px 10px;
 }
 
 h2 {
 	margin-top: 30px;
-}
-
-h3 {
-	margin-top: 3em;
+	text-shadow: #999 0px 0px 10px;
 }
 
 hr {
@@ -33,9 +31,14 @@ hr {
 	margin: 0 auto;
 }
 
+.caja-botones {
+	display: flex;
+	background-color: #999;
+}
+
 .button {
 	border: 1px solid #999;
-	border-radius: 6px;
+	border-radius: 6px 6px 0px 0px;
 	background-color: #ddd;
 	color: #333;
 	padding: 0.5rem 1rem;
@@ -83,7 +86,7 @@ hr {
 
 button.submit {
 	display: block;
-	background-color: green;
+	background-color: #222;
 	color: white;
 	margin-top: 30px;
 	font-size: 18px;
@@ -124,6 +127,7 @@ p.error.small {
 
 .caja-introducir, .caja-vista {
 	padding: 0.5em;
+	max-width: 100%;
 }
 
 .image {
@@ -166,15 +170,15 @@ table td {
 	max-width: 1em;
 }
 
-/*
-.caja-contenedora{
-	background-image: url("./img/mosquito2.jpg");
+
+body{
+	background-image: url("../img/mosquito2.jpg");
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
-	background-size: cover;
+	/*background-size: cover;*/
 }
-*/
+
 
 /*
 .caja-contenedora{

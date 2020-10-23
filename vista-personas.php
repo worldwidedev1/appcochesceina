@@ -4,13 +4,11 @@ include "./classes/class.db.php";
 
 $mostrarPersonas = new DBforms();
 
+include "./templates/body.php";
 // Muestro la vista en HTML
 ?>
 
 <div class="caja-contenedora">
-    <div class="caja-seleccion">
-        <a class="button" href="./index.php">Menú</a>
-    </div>
     <h3>
         Mostrar personas
     </h3>

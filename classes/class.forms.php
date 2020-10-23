@@ -142,7 +142,7 @@ class Formulario {
             } else {
                 $classes .= " error-input";
                 $this->errores = true;
-                $this->showPre("FORM-Activación de error: " . $this->errores); /*** */
+                //$this->showPre("FORM-Activación de error: " . $this->errores); /*** */
             }
         }
 
@@ -409,7 +409,7 @@ class Formulario {
         foreach ($arrayBidi as $value) {
             $arrayMono[$value[$guardar]] = $value[$mostrar];
         }
-        $this->showPre($arrayMono);
+        //$this->showPre($arrayMono);
         return $arrayMono;
     }
 
