@@ -77,8 +77,8 @@ class Formulario {
      * indicando las etiquetas correspondientes y mostrando mensaje final.
      * @param string $type, $id, $name, $placeholder, $label
      * @param boolean $validacion 
-     * @param string $options opciones disponibles en el selector del input
-     * @param array $multiple indica si se han insertado múltiples archivos
+     * @param array $options opciones disponibles a mostrar en el selector del input
+     * @param boolean $multiple indica si el array de opciones contiene múltiples datos, archivos, etc.
      */
     public function showInput($type, $id, $name, $placeholder, $label, $validacion, $options=null, $multiple=null)
     {
@@ -114,6 +114,10 @@ class Formulario {
     /**
      * Comprueba que el tipo entrado en el formulario sea texto.
      * 
+     * Si el objeto existe:
+     * - Sanitiza los datos recibidos comprobando que el valor del campo se corresponde con el tipo
+     * - Valida que realmente se ha recibido un dato y no está vacio o es nulo
+     * Si todo es correcto muestra los datos en HTML según el formato que corresponda a éste método
      * @param string $type, $id, $name, $placeholder, $label
      * @param boolean $validacion 
      */
@@ -164,6 +168,10 @@ class Formulario {
     /**
      * Comprueba que el tipo entrado en el formulario sea numérico.
      * 
+     * Si el objeto existe:
+     * - Sanitiza los datos recibidos comprobando que el valor del campo se corresponde con el tipo
+     * - Valida que realmente se ha recibido un dato y no está vacio o es nulo
+     * Si todo es correcto muestra los datos en HTML según el formato que corresponda a éste método
      * @param string $type, $id, $name, $placeholder, $label
      * @param boolean $validacion 
      */
@@ -208,6 +216,10 @@ class Formulario {
     /**
      * Comprueba que el tipo entrado en el formulario sea fichero.
      * 
+     * Si el objeto existe:
+     * - Sanitiza los datos recibidos comprobando que el valor del campo se corresponde con el tipo
+     * - Valida que realmente se ha recibido un dato y no está vacio o es nulo
+     * Si todo es correcto muestra los datos en HTML según el formato que corresponda a éste método
      * @param string $type, $id, $name, $placeholder, $label
      * @param boolean $validacion 
      */
@@ -269,6 +281,10 @@ class Formulario {
     /**
      * Comprueba que el tipo entrado en el formulario sea checkbox.
      * 
+     * Si el objeto existe:
+     * - Sanitiza los datos recibidos comprobando que el valor del campo se corresponde con el tipo
+     * - Valida que realmente se ha recibido un dato y no está vacio o es nulo
+     * Si todo es correcto muestra los datos en HTML según el formato que corresponda a éste método
      * @param string $type, $id, $name, $placeholder, $label
      * @param boolean $validacion 
      */
@@ -303,10 +319,14 @@ class Formulario {
     /**
      * Comprueba que el tipo entrado en el formulario sea selector.
      * 
+     * Si el objeto existe:
+     * - Sanitiza los datos recibidos comprobando que el valor del campo se corresponde con el tipo
+     * - Valida que realmente se ha recibido un dato y no está vacio o es nulo
+     * Si todo es correcto muestra los datos en HTML según el formato que corresponda a éste método
      * @param string $type, $id, $name, $placeholder, $label
      * @param boolean $validacion 
      * @param array $options opciones de selección
-     * @param array $multiple ficheros insertados
+     * @param array $multiple varios datos y/o ficheros insertados
      */
     private function getTypeSelect($type, $id, $name, $placeholder, $label, $validacion, $options, $multiple)
     {
@@ -334,7 +354,7 @@ class Formulario {
                     $isSelected = true;
                 } else {
                     $classes .= " error-input";
-                    $mensaje_validacion = '<p class="error small">Alguno de los datos esta mal, por favor revisa los datos seleccionados.</p>';
+                    $mensaje_validacion = '<p class="error small">Alguno de los datos está mal, por favor revisa los datos seleccionados.</p>';
                     $this->errores = true;
                 }
             } else {
@@ -345,7 +365,7 @@ class Formulario {
                     $isSelected = true;
                 } else {
                     $classes .= " error-input";
-                    $mensaje_validacion = '<p class="error small">Alguno de los datos esta mal, por favor revisa los datos seleccionados.</p>';
+                    $mensaje_validacion = '<p class="error small">Alguno de los datos está mal, por favor revisa los datos seleccionados.</p>';
                     $this->errores = true;
                 }
             }
@@ -370,6 +390,27 @@ class Formulario {
         $select .= $mensaje_validacion;
         $select .= '</div>';
         echo $select;
+    }
+
+    /**
+     * Recibe un array multiple al cual se accede para coger los datos requeridos y pasarlos a un 
+     * nuevo array asociativo simple para poder ser mostrados.
+     * 
+     * Recibe un array multiple al cual se accede para coger los datos requeridos y pasarlos a un 
+     * nuevo array asociativo simple, al que se tendrán que definir las llaves para los valores a 
+     * guardar.
+     * Tener en cuenta que este array será una combinación de valores asociados 
+     * Posteriormente podrá ser tratado correctamente en el método showInput.
+     * @param $arrayBidi array bidimensional
+     */
+    public function arrayBidiMono($arrayBidi, $guardar, $mostrar){
+        $arrayMono = array();
+
+        foreach ($arrayBidi as $value) {
+            $arrayMono[$value[$guardar]] = $value[$mostrar];
+        }
+        $this->showPre($arrayMono);
+        return $arrayMono;
     }
 
     /**

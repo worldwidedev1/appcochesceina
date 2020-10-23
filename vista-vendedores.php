@@ -1,9 +1,12 @@
 <?php
 include "./templates/header.php";
 include "./classes/class.db.php";
+
 $mostrarVendedores = new DBforms();
+
 // Muestro la vista en HTML
 ?>
+
 <div class="caja-contenedora">
     <div class="caja-seleccion">
         <a class="button" href="./index.php">Menú</a>
@@ -11,6 +14,7 @@ $mostrarVendedores = new DBforms();
     <h3>
         Mostrar vendedores
     </h3>
+
     <hr>
 
     <table>
@@ -23,23 +27,23 @@ $mostrarVendedores = new DBforms();
     if(!empty($listaVendedores)){
         // Recogemos los títulos de los campos para mostrarlos
         $campos = array_keys($listaVendedores[0]);
-        //var_dump($campos);
+        //var_dump($titulos);
         echo "<thead><tr> ";
-        for($i=0; $i < count($campos); $i++){
-            echo "<th><b>" . $campos[$i] . "</b></th>";
+        foreach ($titulos as $titulo) {
+            echo "<th><b>" . strtoupper($titulo) . "</b></th>";
         }
         echo "</tr></thead><tbody>";
 
         //echo '<br />';
 
         // Mostramos los datos de los registros en cada campo
-        foreach ($listaVendedores as $clave => $valor) {
-            //echo "valor: ";
-            //var_dump($valor);
+        foreach ($listaVendedores as $clave => $registro) {
+            //echo "registro: ";
+            //var_dump($registro);
 
             echo "<tr> ";
-            foreach ($valor as $key => $value) {
-                echo "<td>" . $value . "</td>";
+            foreach ($registro as $key => $campo) {
+                echo "<td>" . $campo . "</td>";
             }
             echo "</tr>";
         };

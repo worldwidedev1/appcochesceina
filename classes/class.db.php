@@ -174,6 +174,17 @@ class DBforms {
         // Para cualquier otra opción la función insert_id devolverá cero.
         $id = $enviarVendedor->insert_id;
 
+        // No contiene los almacenados en BD, sólo los de memoria temporal de programa /*** */
+        $vendedor_array = array();
+        $vendedor_array[] = $id;
+        var_dump($vendedor_array);
+        $this->showPre($vendedor_array);
+
+        // Recoge los id de los vendedores en un array que proporciona la consulta a la BD
+        $vendedorIds = $this->obtenerVendedores();
+        var_dump($vendedorIds);
+        $this->showPre($vendedorIds);
+
         // Cierro conexión
         $enviarVendedor->close();
 
@@ -245,28 +256,31 @@ class DBforms {
      * @param int $precio
      */
     // idVendedor, idComprador, marca, modelo, combustible, color, precio
-    public function enviarCoche($datos, $idVendedor=0, $idComprador=0, $marca, $modelo, $combustible, $color, $precio)
+    public function enviarCoche($datos, $Vendedores_idVendedor, $marca, $modelo, $combustible, $color, $precio)
     {
         $conexion = $this->crearConexion();
         $enviarCoche = $conexion->prepare("INSERT INTO Coches(
             Vendedores_idVendedor, 
-            Compradores_idComprador, 
             marca, 
             modelo, 
             combustible, 
             color, 
             precio
-            ) VALUES (?, ?, ?, ?, ?, ?, ?);");
+            ) VALUES (?, ?, ?, ?, ?, ?);");
+
+            $this->showPre($enviarCoche);
+
         $enviarCoche->bind_param(
             $datos,
-            $idVendedor,
-            $idComprador,
+            $Vendedores_idVendedor,
             $marca, 
             $modelo, 
             $combustible, 
             $color,
             $precio
         );
+
+        $this->showPre($enviarCoche);
 
         // Compruebo si la conexión se establece bien
         if (!$enviarCoche) {
@@ -275,6 +289,8 @@ class DBforms {
 
         // Ejecuto la query
         $enviarCoche->execute();
+
+        $this->showPre($enviarCoche);
 
         // Compruebo si se envia y no hay error
         if (!$enviarCoche) {
@@ -430,8 +446,7 @@ class DBforms {
         // Prepara una plantilla de la sentencia SQL, detallando los campos por este motivo (en lugar de poner *)
         $prepare = $conexion->prepare("SELECT 
             idCoche, 
-            Vendedores_idVendedor, 
-            Compradores_idComprador, 
+            Vendedores_idVendedor as idVendedor, 
             marca, 
             modelo, 
             combustible, 
@@ -451,7 +466,6 @@ class DBforms {
         $prepare->bind_result(
             $idCoche, 
             $Vendedores_idVendedor, 
-            $Compradores_idComprador, 
             $marca, 
             $modelo, 
             $combustible, 
@@ -460,17 +474,16 @@ class DBforms {
         );
 
         // Obtiene los resultados de una sentencia preparada en las variables vinculadas
-        $miArray = array();
+        $arrayCoches = array();
         while ($prepare->fetch()) {
-            array_push($miArray,[
-                "idCoche" => $idCoche, 
-                "Vendedores_idVendedor" => $Vendedores_idVendedor, 
-                "Compradores_idComprador" => $Compradores_idComprador, 
-                "marca" => $marca, 
-                "modelo" => $modelo, 
-                "combustible" => $combustible, 
-                "color" => $color, 
-                "precio" => $precio
+            array_push($arrayCoches,[
+                "idCoche"               => $idCoche, 
+                "idVendedor"            => $Vendedores_idVendedor, 
+                "marca"                 => $marca, 
+                "modelo"                => $modelo, 
+                "combustible"           => $combustible, 
+                "color"                 => $color, 
+                "precio"                => $precio
             ]);
         }
        
@@ -481,6 +494,11 @@ class DBforms {
     }
 
     // VENDEDORES - SELECT
+    /**
+     * Realiza una consulta en la tabla Vendedores
+     * 
+     * @return array $arrayVendedores devuelve un array con los elementos que forman parte de la consulta
+     */
     public function obtenerVendedores()
     {
         // Establece la conexión
@@ -488,7 +506,17 @@ class DBforms {
 
         // Prepara una plantilla de la sentencia SQL 
         //SELECT idVendedor, Personas_idPersona FROM Vendedores
-        $prepare = $conexion->prepare("select idVendedor, nombre, apellidos, dni from Personas JOIN Vendedores on Personas.idPersona = Vendedores.Personas_idPersona");
+        $prepare = $conexion->prepare("SELECT 
+            idVendedor, 
+            nombre, 
+            apellidos, 
+            dni 
+            FROM 
+            Personas 
+            JOIN 
+            Vendedores 
+            ON 
+            Personas.idPersona = Vendedores.Personas_idPersona");
 
         // Comprueba si hay Vendedores
         if (!$prepare) {
@@ -504,9 +532,9 @@ class DBforms {
         $prepare->bind_result($idVendedor, $nombre, $apellidos, $dni);
 
         // Obtiene los resultados de una sentencia preparada en las variables vinculadas
-        $miArray = array();
+        $arrayVendedores = array();
         while ($prepare->fetch()) {
-            array_push($miArray,[
+            array_push($arrayVendedores,[
                 "idVendedor"    => $idVendedor, 
                 "nombre"        => $nombre,
                 "apellidos"     => $apellidos,
@@ -517,10 +545,15 @@ class DBforms {
         // Cierro conexión
         $conexion->close();
 
-        return $miArray;
+        return $arrayVendedores;
     }
     
     // COMPRADORES - SELECT
+    /**
+     * Realiza una consulta en la tabla Compradores
+     * 
+     * @return array $arrayCompradores devuelve un array con los elementos que forman parte de la consulta
+     */
     public function obtenerCompradores()
     {
         // Establece la conexión
@@ -529,7 +562,17 @@ class DBforms {
         // Prepara una plantilla de la sentencia SQL 
         //SELECT idComprador, Personas_idPersona FROM Compradores
         //select idComprador, nombre, apellidos, dni from Personas join Compradores on Personas.idPersona = Compradores.Personas_idPersona
-        $prepare = $conexion->prepare("select idComprador, nombre, apellidos, dni from Personas JOIN Compradores on Personas.idPersona = Compradores.Personas_idPersona;");
+        $prepare = $conexion->prepare("SELECT 
+            idComprador, 
+            nombre, 
+            apellidos, 
+            dni 
+            FROM 
+            Personas 
+            JOIN 
+            Compradores 
+            ON 
+            Personas.idPersona = Compradores.Personas_idPersona;");
 
         // Comprueba si hay Compradores
         if (!$prepare) {
@@ -545,9 +588,9 @@ class DBforms {
         $prepare->bind_result($idComprador, $nombre, $apellidos, $dni);
 
         // Obtiene los resultados de una sentencia preparada en las variables vinculadas
-        $miArray = array();
+        $arrayCompradores = array();
         while ($prepare->fetch()) {
-            array_push($miArray,[
+            array_push($arrayCompradores,[
                 "idComprador"   => $idComprador, 
                 "nombre"        => $nombre,
                 "apellidos"     => $apellidos,
@@ -556,22 +599,33 @@ class DBforms {
             ]);
         }
         //echo "obtenerCompradores: " . "<br />"; /*** */
-        //$this->showPre($miArray); /*** */
+        //$this->showPre($arrayCompradores); /*** */
        
         // Cierro conexión
         $conexion->close();
 
-        return $miArray;
+        return $arrayCompradores;
     }
     
     // PERSONAS - SELECT
+    /**
+     * Realiza una consulta en la tabla Personas
+     * 
+     * @return array $arrayPersonas devuelve un array con los elementos que forman parte de la consulta
+     */
     public function obtenerPersonas()
     {
         // Establece la conexión
         $conexion = $this->crearConexion();
 
         // Prepara una plantilla de la sentencia SQL 
-        $prepare = $conexion->prepare("SELECT idPersona, nombre, apellidos, dni FROM Personas");
+        $prepare = $conexion->prepare("SELECT 
+            idPersona, 
+            nombre, 
+            apellidos, 
+            dni 
+            FROM 
+            Personas");
 
         // Comprueba si hay 
         if (!$prepare) {
@@ -587,21 +641,21 @@ class DBforms {
         $prepare->bind_result($idPersona, $nombre, $apellidos, $dni);
 
         // Obtiene los resultados de una sentencia preparada en las variables vinculadas
-        $miArray = array();
+        $arrayPersonas = array();
         while ($prepare->fetch()) {
-            array_push($miArray,[
-                "id" => $idPersona, 
-                "nombre" => $nombre, 
+            array_push($arrayPersonas,[
+                "idPersona" => $idPersona, 
+                "nombre"    => $nombre, 
                 "apellidos" => $apellidos, 
-                "dni" => $dni
+                "dni"       => $dni
             ]);
         }
-        //var_dump($miArray);
+        //var_dump($arrayPersonas);
        
         // Cierro conexión
         $conexion->close();
 
-        return $miArray;
+        return $arrayPersonas;
     }
     
     /**

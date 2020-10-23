@@ -64,7 +64,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `app_coches`.`Coches` (
   `idCoche` INT NOT NULL AUTO_INCREMENT,
   `Vendedores_idVendedor` INT NOT NULL,
-  `Compradores_idComprador` INT NOT NULL,
+  `Compradores_idComprador` INT NULL DEFAULT NULL,
   `marca` VARCHAR(30) NOT NULL,
   `modelo` VARCHAR(45) NOT NULL,
   `combustible` VARCHAR(20) NOT NULL,

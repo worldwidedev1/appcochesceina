@@ -26,24 +26,24 @@ $mostrarPersonas = new DBforms();
 
     if(!empty($listaPersonas)){
         // Recogemos los títulos de los campos para mostrarlos
-        $campos = array_keys($listaPersonas[0]);
-        //var_dump($campos);
+        $titulos = array_keys($listaPersonas[0]);
+        //var_dump($titulos);
         echo "<thead><tr> ";
-        for($i=0; $i < count($campos); $i++){
-            echo "<th><b>" . $campos[$i] . "</b></th>";
+        foreach ($titulos as $titulo) {
+            echo "<th><b>" . strtoupper($titulo) . "</b></th>";
         }
         echo "</tr></thead><tbody>";
 
         //echo '<br />';
 
         // Mostramos los datos de los registros en cada campo
-        foreach ($listaPersonas as $clave => $valor) {
-            //echo "valor: ";
-            //var_dump($valor);
+        foreach ($listaPersonas as $clave => $registro) {
+            //echo "registro: ";
+            //var_dump($registro);
 
             echo "<tr> ";
-            foreach ($valor as $key => $value) {
-                echo "<td>" . $value . "</td>";
+            foreach ($registro as $key => $campo) {
+                echo "<td>" . $campo . "</td>";
             }
             echo "</tr>";
         };

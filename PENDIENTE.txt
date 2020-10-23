@@ -7,9 +7,10 @@ Base de datos:              ok
 FORMULARIOS:
 Introducir comprador:       ok
 Introducir vendedor:        ok
-Introducir coches:          se debe seleccionar con anterioridad al usuario (comprador o vendedor)
-Vista comprador:            falta conectar con personas o cambiar sentencia SQL
-Vista vendedor:             ídem anterior
+Introducir coches:          ok
+Vista comprador:            ok
+Vista vendedor:             ok
+Vista coche:                ok
 
 MEDIA:
 Introducir media:           

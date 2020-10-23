@@ -1,14 +1,10 @@
 <?php
-
 include "./templates/header.php";
 include "./classes/class.forms.php";
 include "./classes/class.db.php";
 
 $formularioIntroducir = new Formulario();
 $enviarVendedor = new DBforms();
-
-const OBJETO = "vendedor";
-const MENU = "index.php";
 
 // Compruebo si estamos en método POST
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -26,10 +22,10 @@ $existeValidacion = !empty($formularioIntroducir) && $_SERVER["REQUEST_METHOD"] 
 
 <div class="caja-contenedora">
     <div class="caja-seleccion">
-        <a class="button" href="./"<?php MENU ?> >Menú</a>
+        <a class="button" href="./index.php" >Menú</a>
     </div>
     <h3>
-        Introducir <?php echo OBJETO ?>
+        Introducir vendedor
     </h3>
     
     <hr> 
@@ -66,7 +62,7 @@ $existeValidacion = !empty($formularioIntroducir) && $_SERVER["REQUEST_METHOD"] 
             );
         ?>
 
-        <button type="submit" class="submit">Enviar <?php echo OBJETO ?></button>
+        <button type="submit" class="submit">Enviar vendedor</button>
     </form>
 </div>
 
@@ -92,12 +88,12 @@ if (!$errores && $existeValidacion) {
     );
 
     if (!empty($idVendedor)) {
-        echo "<p class='valid-input' id='guardado'>Se ha recibido y guardado correctamente los datos introducidos de " . OBJETO . "</p>";
+        echo "<p class='valid-input' id='guardado'>Se ha recibido y guardado correctamente los datos introducidos de vendedor</p>";
     }
 }
 
 if (count($errores) > 0) {
-    echo "<p>El formulario ". OBJETO." contiene errores y no se ha enviado</p>";
+    echo "<p>El formulario vendedor contiene errores y no se ha enviado</p>";
     echo "Errores contados: ".count($errores);
 }
 ?>

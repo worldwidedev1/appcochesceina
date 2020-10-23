@@ -161,3 +161,36 @@ table tr {
 	justify-content: center;
 	align-items: center;
 }
+
+table td {
+	max-width: 1em;
+}
+
+/*
+.caja-contenedora{
+	background-image: url("./img/mosquito2.jpg");
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+}
+*/
+
+/*
+.caja-contenedora{
+	z-index: -999;
+	width: 100%;
+	height: auto;
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+*/
+
+/*
+.caja-contenedora{
+	background-image: url("./img/mosquito2.jpg") no-repeat center center fixed;
+	background-size: cover;
+	margin:0;
+}
+*/

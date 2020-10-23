@@ -1,14 +1,10 @@
 <?php
-
 include "./templates/header.php";
 include "./classes/class.forms.php";
 include "./classes/class.db.php";
 
 $formularioIntroducir = new Formulario();
 $enviarCoche = new DBforms();
-
-const OBJETO = "coche";
-const MENU = "index.php";
 
 // Compruebo si estamos en método POST
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -26,10 +22,10 @@ $existeValidacion = !empty($formularioIntroducir) && $_SERVER["REQUEST_METHOD"] 
 
 <div class="caja-contenedora">
     <div class="caja-seleccion">
-        <a class="button" href="./"<?php MENU ?> >Menú</a>
+        <a class="button" href="./index.php" >Menú</a>
     </div>
     <h3>
-        Introducir <?php echo OBJETO ?>
+        Introducir coche
     </h3>
 
     <hr> 
@@ -39,46 +35,30 @@ $existeValidacion = !empty($formularioIntroducir) && $_SERVER["REQUEST_METHOD"] 
         method="post"
     >
 
-        <label for="usuario">¿Qué usuario eres?
-        </label>
-        <select id="usuario" name="usuario" >
-            <option value="" selected disabled>--Por favor, escoge una opción--</option>
-
-            <?php foreach ($formularioIntroducir->array_personas_validas as $key => $value) : ?>
-                    <option value="<?php echo $key; ?>"><?php echo $value ?></option>
-            <?php endforeach;
-
-            $usuario = $_POST["usuario"]; 
-
-            if ($usuario === "comprador") {
-                $formularioIntroducir->showInput(
-                $type = "number",
-                $idComprador = "idComprador",
-                $name = "idComprador",
-                $placeholder = "Número del Comprador",
-                $label = "Número del Comprador:",
-                $validacion = $existeValidacion
-            );
-            $idVendedor = null;
-            } elseif ($usuario === "vendedor") {
-                $formularioIntroducir->showInput(
-                $type = "number",
-                $idVendedor = "idVendedor",
-                $name = "idVendedor",
-                $placeholder = "Número del Vendedor",
-                $label = "Número del Vendedor:",
-                $validacion = $existeValidacion
-            );
-            $idComprador = null;
-            } else {
-                $placeholder = "Debes seleccionar un usuario antes";
-            }
-            
-            ?>
-
-        </select>
-
         <?php
+            /* // Se recibe un array multiple al cual se accede para coger los datos requeridos 
+            // y pasarlos a un array simple, que podrá ser tratado correctamente en showInput.
+            $arrayMultiple = $enviarCoche->obtenerVendedores();
+            $arrayUnico = array();
+
+            foreach ($arrayMultiple as $key => $value) {
+                //echo $value["dni"] . "<br>";
+                $arrayUnico[$key] = $value["dni"];
+            } */
+
+            $guardarVendedor = "idVendedor"; // nombre de la llave del valor que se quiere almacenar
+            $mostrarVendedor = "dni"; // nombre de la llave del valor que se quiere mostrar en HTML
+
+            $formularioIntroducir->showInput(
+                $type = "select",
+                $id = "idVendedor",
+                $name = "idVendedor",
+                $placeholder = "Vendedor",
+                $label = "Vendedor:",
+                $validacion = $existeValidacion,
+                $options = $formularioIntroducir->arrayBidiMono($enviarCoche->obtenerVendedores(), $guardarVendedor, $mostrarVendedor), //$arrayUnico,
+                $multiple = false
+            );
             $formularioIntroducir->showInput(
                 $type = "text",
                 $id = "marca",
@@ -121,7 +101,7 @@ $existeValidacion = !empty($formularioIntroducir) && $_SERVER["REQUEST_METHOD"] 
             );
         ?>
 
-        <button type="submit" class="submit">Enviar <?php echo OBJETO ?></button>
+        <button type="submit" class="submit">Enviar coche</button>
     </form>
 </div>
 
@@ -129,14 +109,17 @@ $existeValidacion = !empty($formularioIntroducir) && $_SERVER["REQUEST_METHOD"] 
 // Compruebo si hay errores
 $errores = $formularioIntroducir->hayErrores();
 
+echo "<pre>";
+print_r($formularioIntroducir->datosRecibidos);
+echo "</pre>";
+
 // Si no hay errores y se ha validado (la clase existe y estamos en método POST)
 if (!$errores && $existeValidacion) {
     // se envian las variables a la base de datos junto con una cadena de caracteres, en la que se 
     // indica el tipo correspondiente de éstas y que debe coincidir con los parámetros de la sentencia
     $idCoche = $enviarCoche->enviarCoche(
-        'iissssi',
+        'issssi',
         $formularioIntroducir->datosRecibidos['idVendedor'],
-        $formularioIntroducir->datosRecibidos['idComprador'],
         $formularioIntroducir->datosRecibidos['marca'],
         $formularioIntroducir->datosRecibidos['modelo'],
         $formularioIntroducir->datosRecibidos['combustible'],
@@ -146,12 +129,12 @@ if (!$errores && $existeValidacion) {
 
     if (!empty($idCoche)) {
         echo "<br>";
-        echo "<p class='valid-input' id='guardado'>Se ha recibido y guardado correctamente los datos introducidos de " . OBJETO . "</p>";
+        echo "<p class='valid-input' id='guardado'>Se ha recibido y guardado correctamente los datos introducidos de coche</p>";
     }
 }
 
 if (count($errores) > 0) {
-    echo "<p>El formulario ". OBJETO." contiene errores y no se ha enviado</p>";
+    echo "<p>El formulario coche contiene errores y no se ha enviado</p>";
     echo "Errores contados: ".count($errores);
 }
 ?>
