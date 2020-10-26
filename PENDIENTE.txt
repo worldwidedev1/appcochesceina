@@ -5,16 +5,22 @@ Formulario:                 ok
 Base de datos:              ok
 
 FORMULARIOS:
-Introducir comprador:       ok
+Introducir comprador:       ok, modificado para actualizar en cascada
 Introducir vendedor:        ok
-Introducir coches:          ok
+Introducir coches:          ok, modificado para añadir matricula
+Introducir transacción:     pendiente modificar introduccion formato fecha
 Vista comprador:            ok
-Vista vendedor:             ok
-Vista coche:                ok
+Vista vendedor:             ok, modificado para actualizar en cascada
+Vista coche:                ok, modificado para añadir matricula
+Vista transacción:          ok, ordenado por idTransaccion
 
 MEDIA:
 Introducir media:           
 
 ESTÉTICA:
-Visualización final:        
+Visualización final:        mejorada, pendiente ocultar mostrar opciones
 
+BD:
+Coches:                     desmarcado NN del campo Compradores
+Coches:                     añadido campo matricula
+Transacciones:              modificado nombre campo a created_at

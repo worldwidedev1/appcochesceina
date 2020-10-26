@@ -153,11 +153,11 @@ class Formulario {
         $textInput .= '<input value="' . $miDato . '" type="text" name="' . $name . '" id="' . $id . '" placeholder="' . $placeholder . '" class="' . $classes . '" />';
 
         if ($miDato && $esValido) {
-            $textInput .= '<p class="success small">Datos validos.</p>';
+            $textInput .= '<p class="success-small">Datos válidos.</p>';
         }
 
         if ($esValido === false) {
-            $textInput .= '<p class="error small">Por favor, revisa el campo. El dato esta vacio o no es valido.</p>';
+            $textInput .= '<p class="error-small">Por favor, revisa el campo. El dato está vacio o no es válido.</p>';
         }
 
         $textInput .= '</div>';
@@ -201,11 +201,11 @@ class Formulario {
         $textInput .= '<input value="' . $miDato . '" type="number" name="' . $name . '" id="' . $id . '" placeholder="' . $placeholder . '" class="' . $classes . '" />';
 
         if ($miDato && $esValido) {
-            $textInput .= '<p class="success small">Datos validos.</p>';
+            $textInput .= '<p class="success-small">Datos válidos.</p>';
         }
 
         if ($esValido === false) {
-            $textInput .= '<p class="error small">Por favor, revisa el campo. El dato esta vacio o no es valido.</p>';
+            $textInput .= '<p class="error-small">Por favor, revisa el campo. El dato está vacio o no es válido.</p>';
         }
 
         $textInput .= '</div>';
@@ -266,11 +266,11 @@ class Formulario {
         $textInput .= '<input type="file" name="' . $name . '" id="' . $id . '" alt="' . $name . '" placeholder="' . $placeholder . '" class="' . $classes . '" accept="image/png, image/jpg, image/jpeg, image/gif", image/webp/>';
 
         if ($miDato && $esValido) {
-            $textInput .= '<p class="success small">Datos validos.</p>';
+            $textInput .= '<p class="success-small">Datos válidos.</p>';
         }
 
         if ($esValido === false) {
-            $textInput .= '<p class="error small">Por favor, revisa el campo. El dato esta vacio o no es valido.</p>';
+            $textInput .= '<p class="error-small">Por favor, revisa el campo. El dato está vacio o no es válido.</p>';
         }
 
         $textInput .= '</div>';
@@ -306,9 +306,9 @@ class Formulario {
         $checkBox .= '</label>';
 
         // if ($esValido) {
-        //     $checkBox .= '<p class="success small">Datos validos.</p>';
+        //     $checkBox .= '<p class="success-small">Datos válidos.</p>';
         // } else {
-        //     $checkBox .= '<p class="error small">Por favor, revisa el campo. El dato esta vacio o no es valido.</p>';
+        //     $checkBox .= '<p class="error-small">Por favor, revisa el campo. El dato está vacio o no es válido.</p>';
         // }
 
         $checkBox .= '</div>';
@@ -350,22 +350,22 @@ class Formulario {
                 
                 if (count($resultado) === count($arrayValoresSeleccionados)) {
                     $classes .= " valid-input";
-                    $mensaje_validacion = '<p class="success small">Datos validos.</p>';
+                    $mensaje_validacion = '<p class="success-small">Datos válidos.</p>';
                     $isSelected = true;
                 } else {
                     $classes .= " error-input";
-                    $mensaje_validacion = '<p class="error small">Alguno de los datos está mal, por favor revisa los datos seleccionados.</p>';
+                    $mensaje_validacion = '<p class="error-small">Alguno de los datos está mal, por favor revisa los datos seleccionados.</p>';
                     $this->errores = true;
                 }
             } else {
 
                 if (in_array($valor_seleccionado, array_keys($options))) {
                     $classes .= " valid-input";
-                    $mensaje_validacion = '<p class="success small">Datos validos.</p>';
+                    $mensaje_validacion = '<p class="success-small">Datos válidos.</p>';
                     $isSelected = true;
                 } else {
                     $classes .= " error-input";
-                    $mensaje_validacion = '<p class="error small">Alguno de los datos está mal, por favor revisa los datos seleccionados.</p>';
+                    $mensaje_validacion = '<p class="error-small">Alguno de los datos está mal, por favor revisa los datos seleccionados.</p>';
                     $this->errores = true;
                 }
             }

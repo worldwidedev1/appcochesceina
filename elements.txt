@@ -1,0 +1,57 @@
+elements
+
+
+HTML
+
+div
+h2
+hr
+h4
+a
+h3
+form
+table
+thead
+tr
+tbody
+th
+td
+select
+option
+placeholder
+label
+
+
+.class
+
+submit
+caja-contenedora
+caja-botones
+caja-1
+caja-2
+caja-introducir
+caja-vista
+button
+grupo
+label
+input input-text
+input input-select
+input input-number
+input input-file
+input input-checkbox
+grupo grupo-checkbox
+grupo grupo-select
+valid-input
+error-input
+success small
+error small
+
+#id
+guardado
+idVendedor
+idComprador
+idCoche
+idPersona
+
+
+

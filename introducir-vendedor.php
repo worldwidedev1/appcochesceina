@@ -91,8 +91,8 @@ if (!$errores && $existeValidacion) {
 }
 
 if (count($errores) > 0) {
-    echo "<p>El formulario vendedor contiene errores y no se ha enviado</p>";
-    echo "Errores contados: ".count($errores);
+    echo "<br><p>El formulario vendedor contiene errores y no se ha enviado.</p>";
+    echo "<p>Errores contados: ".count($errores)."</p>";
 }
 ?>
 

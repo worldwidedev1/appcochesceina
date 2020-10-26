@@ -59,6 +59,14 @@ include "./templates/body.php";
             );
             $formularioIntroducir->showInput(
                 $type = "text",
+                $id = "matricula",
+                $name = "matricula",
+                $placeholder = "Matricula",
+                $label = "Matricula:",
+                $validacion = $existeValidacion
+            );
+            $formularioIntroducir->showInput(
+                $type = "text",
                 $id = "marca",
                 $name = "marca",
                 $placeholder = "Marca",
@@ -112,8 +120,9 @@ if (!$errores && $existeValidacion) {
     // se envian las variables a la base de datos junto con una cadena de caracteres, en la que se 
     // indica el tipo correspondiente de éstas y que debe coincidir con los parámetros de la sentencia
     $idCoche = $enviarCoche->enviarCoche(
-        'issssi',
+        'isssssi',
         $formularioIntroducir->datosRecibidos['idVendedor'],
+        $formularioIntroducir->datosRecibidos['matricula'],
         $formularioIntroducir->datosRecibidos['marca'],
         $formularioIntroducir->datosRecibidos['modelo'],
         $formularioIntroducir->datosRecibidos['combustible'],
@@ -128,8 +137,8 @@ if (!$errores && $existeValidacion) {
 }
 
 if (count($errores) > 0) {
-    echo "<p>El formulario coche contiene errores y no se ha enviado</p>";
-    echo "Errores contados: ".count($errores);
+    echo "<br><p>El formulario coche contiene errores y no se ha enviado.</p>";
+    echo "<p>Errores contados: ".count($errores)."</p>";
 }
 ?>
 

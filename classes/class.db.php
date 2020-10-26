@@ -252,25 +252,27 @@ class DBforms {
      * 
      * @param string $datos
      * @param int $idVendedor, $idComprador, 
-     * @param string $marca, $modelo, $combustible, $color, 
+     * @param string $matricula, $marca, $modelo, $combustible, $color, 
      * @param int $precio
      */
-    // idVendedor, idComprador, marca, modelo, combustible, color, precio
-    public function enviarCoche($datos, $Vendedores_idVendedor, $marca, $modelo, $combustible, $color, $precio)
+    // idVendedor, idComprador, matricula, marca, modelo, combustible, color, precio
+    public function enviarCoche($datos, $Vendedores_idVendedor, $matricula, $marca, $modelo, $combustible, $color, $precio)
     {
         $conexion = $this->crearConexion();
         $enviarCoche = $conexion->prepare("INSERT INTO Coches(
             Vendedores_idVendedor, 
+            matricula, 
             marca, 
             modelo, 
             combustible, 
             color, 
             precio
-            ) VALUES (?, ?, ?, ?, ?, ?);");
+            ) VALUES (?, ?, ?, ?, ?, ?, ?);");
 
         $enviarCoche->bind_param(
             $datos,
             $Vendedores_idVendedor,
+            $matricula, 
             $marca, 
             $modelo, 
             $combustible, 
@@ -308,23 +310,23 @@ class DBforms {
      * Inserta datos en la tabla Transacciones de la BD.
      * 
      * @param string $datos
-     * @param int $idVendedor, $idComprador, 
-     * @param date $createAt fecha de realización de la transacción
+     * @param int $Vendedores_idVendedor, $Compradores_idComprador, $matricula
+     * @param date $created_at fecha de realización de la transacción
      */
-    // idVendedores, idCompradores, createAt
-    public function enviarTransaccion($datos, $idVendedor, $idComprador, $createAt)
+    // idVendedores, idCompradores, created_at, matricula
+    public function enviarTransaccion($datos, $Vendedores_idVendedor, $Compradores_idComprador, $created_at)
     {
         $conexion = $this->crearConexion();
-        $enviarTransaccion = $conexion->prepare("INSERT INTO Transaccion(
+        $enviarTransaccion = $conexion->prepare("INSERT INTO Transacciones(
             Vendedores_idVendedor, 
             Compradores_idComprador, 
-            createAt
+            created_at
             ) VALUES (?, ?, ?)");
         $enviarTransaccion->bind_param(
             $datos,
-            $idVendedor,
-            $idComprador,
-            $createAt
+            $Vendedores_idVendedor,
+            $Compradores_idComprador,
+            $created_at
         );
 
         // Compruebo si la conexión se establece bien
@@ -345,8 +347,11 @@ class DBforms {
         // Para cualquier otra opción la función insert_id devolverá cero.
         $id = $enviarTransaccion->insert_id;
 
+        //echo "id = enviarTransaccion->insert_id " ;
+        //$this->showPre($id);
+
         // Cierro conexión
-        $enviarTransaccion->close();
+        //$enviarTransaccion->close();
 
         // Devuelvo el ID
         return $id;
@@ -356,8 +361,8 @@ class DBforms {
     /**
      * 
      */
-    // idTransacciones, idCoches
-    /*public function enviarTransaccionCoche($datos, $idTransaccion, $idCoche)
+    // Transacciones_idTransaccion, Coches_idCoche
+    public function enviarTransaccionCoche($datos, $idTransaccion, $idCoche)
     {
         $conexion = $this->crearConexion();
         $enviarTransaccionCoche = $conexion->prepare("INSERT INTO Transacciones_has_Coches(
@@ -386,11 +391,14 @@ class DBforms {
         // Devuelvo el último valor añadido en la última consulta.
         // La tabla debe tener columna de autoincremento y las declaraciones enviadas deben ser insert o update. 
         // Para cualquier otra opción la función insert_id devolverá cero.
-        $id = $enviarTransaccionCoche->insert_id;
+        $id = $enviarTransaccionCoche->insert_id-1;
 
         // Cierro conexión
         $enviarTransaccionCoche->close();
-    }*/
+
+        // Devuelvo el ID
+        return $id;
+    }
 
     // MEDIA
     // path, mime_type, filesize
@@ -441,6 +449,7 @@ class DBforms {
         $prepare = $conexion->prepare("SELECT 
             idCoche, 
             Vendedores_idVendedor as idVendedor, 
+            matricula, 
             marca, 
             modelo, 
             combustible, 
@@ -460,6 +469,7 @@ class DBforms {
         $prepare->bind_result(
             $idCoche, 
             $Vendedores_idVendedor, 
+            $matricula, 
             $marca, 
             $modelo, 
             $combustible, 
@@ -473,6 +483,7 @@ class DBforms {
             array_push($arrayCoches,[
                 "idCoche"               => $idCoche, 
                 "idVendedor"            => $Vendedores_idVendedor, 
+                "matricula"             => $matricula, 
                 "marca"                 => $marca, 
                 "modelo"                => $modelo, 
                 "combustible"           => $combustible, 
@@ -650,6 +661,68 @@ class DBforms {
         $conexion->close();
 
         return $arrayPersonas;
+    }
+
+    // TRANSACCIONES - SELECT
+    /**
+     * Realiza una consulta en la tabla Transacciones
+     * 
+     * @return array $arrayPersonas devuelve un array con los elementos que forman parte de la consulta
+     */
+    public function obtenerTransacciones()
+    {
+        // Establece la conexión
+        $conexion = $this->crearConexion();
+
+        // Prepara una plantilla de la sentencia SQL 
+        $prepare = $conexion->prepare("SELECT 
+            t.idTransaccion,
+            t.Vendedores_idVendedor AS idVendedor,
+            t.Compradores_idComprador AS idComprador,
+            c.matricula,
+            t.created_at AS fecha
+            FROM Transacciones AS t
+            JOIN Transacciones_has_Coches AS tc 
+            ON t.idTransaccion = tc.Transacciones_idTransaccion 
+            JOIN Coches as c 
+            ON tc.Coches_idCoche = c.idCoche
+            ORDER BY t.idTransaccion;");
+
+        // Comprueba si hay 
+        if (!$prepare) {
+            echo "Comprueba si hay transacciones: ";
+            $this->showPre($conexion->error_list);
+            throw new Exception($conexion->error_list);
+        }
+
+        // Ejecuta la sentencia
+        $prepare->execute();
+
+        // Vincula variables a una sentencia preparada para el almacenamiento de resultados
+        $prepare->bind_result(
+            $idTransaccion, 
+            $idVendedor, 
+            $idComprador, 
+            $matricula, 
+            $created_at);
+
+        // Obtiene los resultados de una sentencia preparada en las variables vinculadas
+        $arrayTransacciones = array();
+        while ($prepare->fetch()) {
+            array_push($arrayTransacciones,[
+                "idTransaccion"             => $idTransaccion, 
+                "idVendedor"                => $idVendedor, 
+                "idComprador"               => $idComprador, 
+                "matricula"                 => $matricula, 
+                "fecha"                     => $created_at
+            ]);
+        }
+        //var_dump($arrayTransacciones);
+       
+        // Cierro conexión
+        $conexion->close();
+
+        return $arrayTransacciones;
     }
     
     /**

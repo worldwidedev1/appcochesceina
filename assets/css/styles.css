@@ -10,20 +10,23 @@ h1,h2,h3,h4,h5,h6,body {
 	line-height: 1.5em;
 }
 
-h1 {
-	margin-bottom: 0;
-	font-size: 48px;
-	text-shadow: #999 0px 0px 10px;
-}
-
 h2 {
 	margin-top: 30px;
 	text-shadow: #999 0px 0px 10px;
 }
 
+h2:hover{
+	text-shadow: goldenrod 0px 0px 10px;
+}
+
 hr {
 	margin-top: 0.2em;
 	margin-bottom: 0.32em;
+}
+
+a {
+	text-decoration: none;
+	color: #333;
 }
 
 .caja-contenedora {
@@ -33,7 +36,8 @@ hr {
 
 .caja-botones {
 	display: flex;
-	background-color: #999;
+	background-color: #444;
+	color: white;
 }
 
 .button {
@@ -56,35 +60,29 @@ hr {
 	margin-left: 0%;
 }
 
-.caja-seleccion{
-	padding-top: 1em;
-	margin-top: 0.4em;
-	margin-bottom: 0.6em;
-}
-
-.grupo input,
-.grupo textarea,
-.grupo select {
+input, select {
 	display: block;
-	border: 1px solid #ddd;
-	background-color: #eee;
+	border: 1px solid goldenrod; /*#ddd;*/
+	background-color: rgba(0,0,0,0.6); /*transparent;*/
 	border-radius: 6px;
 	padding: 0.5rem 1rem;
-	font-size: 1rem;
+	font-size: 1.2rem;
+	font-weight: bold;
+	color: goldenrod; /*#333;*/
 }
 
-.grupo.grupo-checkbox {
+.grupo-checkbox {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 }
 
-.grupo.grupo-checkbox label {
+.grupo-checkbox label {
 	margin-bottom: 0;
 	margin-left: 0.5rem;
 }
 
-button.submit {
+.submit {
 	display: block;
 	background-color: #222;
 	color: white;
@@ -96,9 +94,9 @@ button.submit {
 	transition: all 0.2s ease;
 }
 
-button.submit:hover {
+.submit:hover, .button:hover {
 	cursor: pointer;
-	background-color: #004200; /* 006400 */
+	background-color: goldenrod; /*#004200*/ /* 006400 */
 }
 
 .valid-input {
@@ -113,16 +111,20 @@ button.submit:hover {
 	background-color: #eee;
 }
 
-p.success.small {
-	font-size: 12px;
+.success-small {
+	font-size: 16px;
 	color: green;
 	margin-top: 0px;
+	font-weight: bold;
+	margin-left: 0%;
 }
 
-p.error.small {
-	font-size: 12px;
+.error-small {
+	font-size: 16px;
 	color: red;
 	margin-top: 0px;
+	font-weight: bold;
+	margin-left: 0%;
 }
 
 .caja-introducir, .caja-vista {
@@ -130,46 +132,41 @@ p.error.small {
 	max-width: 100%;
 }
 
-.image {
-	/*background-image: url("./assets/img/mosquito2.jpg");*/
-	/*height: 75%;*/
-	background-position: center center;
-	background-repeat: no-repeat;
-}
-
 #guardado {
 	text-align: center;
 }
 
 table tbody tr:nth-child(odd) {
-	background: #ccc;
+	/*background: #ccc;*/ /*equival a rgb de 204*/
+	background-color: rgba(204,204,204,0.6);
 }
 
 table tbody tr:nth-child(even) {
-	background: #eee;
+	/*background: #eee;*/ /*equival a rgb de 238*/
+	background-color: rgba(170,170,170,0.6); /*background: #aaa;*/
 }
 
 table thead {
-  background: #444;
-  color: #fff;
-  font-size: 18px;
+	background: #333;
+	color: #fff;
+	font-size: 18px;
 }
 
 table {
-  border-collapse: collapse;
-  width: 90%;
+	border-collapse: collapse;
+	width: 90%;
 }
 
 table tr {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	font-weight: bold;
 }
 
 table td {
 	max-width: 1em;
 }
-
 
 body{
 	background-image: url("../img/mosquito2.jpg");
@@ -178,23 +175,3 @@ body{
 	background-attachment: fixed;
 	/*background-size: cover;*/
 }
-
-
-/*
-.caja-contenedora{
-	z-index: -999;
-	width: 100%;
-	height: auto;
-	position: fixed;
-	top: 0;
-	left: 0;
-}
-*/
-
-/*
-.caja-contenedora{
-	background-image: url("./img/mosquito2.jpg") no-repeat center center fixed;
-	background-size: cover;
-	margin:0;
-}
-*/
