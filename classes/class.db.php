@@ -316,6 +316,9 @@ class DBforms {
     // idVendedores, idCompradores, created_at, matricula
     public function enviarTransaccion($datos, $Vendedores_idVendedor, $Compradores_idComprador, $created_at)
     {
+        //echo "antes:";
+        //$this->showPre($created_at);
+        
         $conexion = $this->crearConexion();
         $enviarTransaccion = $conexion->prepare("INSERT INTO Transacciones(
             Vendedores_idVendedor, 
@@ -326,8 +329,11 @@ class DBforms {
             $datos,
             $Vendedores_idVendedor,
             $Compradores_idComprador,
-            $created_at
+            $created_at = date_format(date_create($created_at), 'Y-m-d') //convierte fecha de formato europeo a SQL (Y-m-d)
         );
+
+        //echo "despues:";
+        //$this->showPre($created_at);
 
         // Compruebo si la conexión se establece bien
         if (!$enviarTransaccion) {
@@ -351,7 +357,7 @@ class DBforms {
         //$this->showPre($id);
 
         // Cierro conexión
-        //$enviarTransaccion->close();
+        $enviarTransaccion->close();
 
         // Devuelvo el ID
         return $id;
@@ -723,6 +729,110 @@ class DBforms {
         $conexion->close();
 
         return $arrayTransacciones;
+    }
+
+    //  COCHES Y VENDEDORES- SELECT
+    /**
+     * Realiza una consulta en la tabla Coches para mostrar sólo los coches que tienen para vender.
+     * 
+     * @return array $arrayCochesVendedores devuelve un array con los elementos que forman parte de la consulta
+     */
+    public function obtenerCochesVendedores()
+    {
+        // Establece la conexión
+        $conexion = $this->crearConexion();
+
+        // Prepara una plantilla de la sentencia SQL 
+        //SELECT idCoche, matricula from Coches where idCoche not in (select Coches_idCoche from Transacciones_has_Coches join Coches where Coches_idCoche = idCoche);
+        $prepare = $conexion->prepare("SELECT 
+            idCoche, 
+            matricula 
+            FROM Coches WHERE 
+            idCoche 
+            NOT IN (SELECT 
+                Coches_idCoche
+                FROM Transacciones_has_Coches);");
+
+        // Comprueba si hay Vendedores
+        if (!$prepare) {
+            echo "Comprueba si hay vendedores: ";
+            //var_dump($conexion->error_list); /*** */
+            throw new Exception($conexion->error_list);
+        }
+
+        // Ejecuta la sentencia
+        $prepare->execute();
+
+        // Vincula variables a una sentencia preparada para el almacenamiento de resultados
+        $prepare->bind_result(
+            $idCoche, 
+            $matricula);
+
+        // Obtiene los resultados de una sentencia preparada en las variables vinculadas
+        $arrayCochesVendedores = array();
+        while ($prepare->fetch()) { 
+            //Los únicos parámetros que se necesitan son los campos que se piden
+            array_push($arrayCochesVendedores,[
+                "idCoche"           => $idCoche, 
+                "matricula"         => $matricula
+            ]);
+        }
+       
+        // Cierro conexión
+        $conexion->close();
+
+        return $arrayCochesVendedores;
+    }
+    
+    // VENDEDORES Y COCHES - SELECT
+    /**
+     * Realiza una consulta en la tabla Vendedores para mostrar sólo los que tienen coches para vender
+     * 
+     * @return array $arrayVendedores devuelve un array con los elementos que forman parte de la consulta
+     */
+    public function obtenerVendedoresCoches()
+    {
+        // Establece la conexión
+        $conexion = $this->crearConexion();
+
+        // Prepara una plantilla de la sentencia SQL 
+        //SELECT idVendedor, Personas_idPersona FROM Vendedores
+        $prepare = $conexion->prepare("SELECT 
+            idVendedor, 
+            dni 
+            FROM Vendedores, Personas 
+            WHERE Personas_idPersona = idPersona AND idVendedor IN (SELECT 
+                Vendedores_idVendedor FROM Coches WHERE idCoche NOT IN (SELECT 
+                    Coches_idCoche FROM Transacciones_has_Coches));");
+
+        // Comprueba si hay Vendedores
+        if (!$prepare) {
+            echo "Comprueba si hay vendedores: ";
+            //var_dump($conexion->error_list); /*** */
+            throw new Exception($conexion->error_list);
+        }
+
+        // Ejecuta la sentencia
+        $prepare->execute();
+
+        // Vincula variables a una sentencia preparada para el almacenamiento de resultados
+        $prepare->bind_result(
+            $idVendedor, 
+            $dni);
+
+        // Obtiene los resultados de una sentencia preparada en las variables vinculadas
+        $arrayVendedoresCoches = array();
+        while ($prepare->fetch()) {
+            array_push($arrayVendedoresCoches,[
+                "idVendedor"    => $idVendedor, 
+                "dni"           => $dni
+            ]);
+        }
+       
+        // Cierro conexión
+        $conexion->close();
+
+        return $arrayVendedoresCoches;
     }
     
     /**

@@ -44,7 +44,7 @@ include "./templates/body.php";
                 $placeholder = "Vendedor",
                 $label = "Vendedor:",
                 $validacion = $existeValidacion, 
-                $options = $formularioIntroducir->arrayBidiMono($enviarTransaccion->obtenerVendedores(), $guardarVendedor, $mostrarVendedor), //$arrayUnico,
+                $options = $formularioIntroducir->arrayBidiMono($enviarTransaccion->obtenerVendedoresCoches(), $guardarVendedor, $mostrarVendedor), //$arrayUnico,
                 $multiple = false
             );
             $formularioIntroducir->showInput(
@@ -64,15 +64,15 @@ include "./templates/body.php";
                 $placeholder = "Matricula",
                 $label = "Matricula:",
                 $validacion = $existeValidacion, 
-                $options = $formularioIntroducir->arrayBidiMono($enviarTransaccion->obtenerCoches(), $guardarCoche, $mostrarCoche), //$arrayUnico,
+                $options = $formularioIntroducir->arrayBidiMono($enviarTransaccion->obtenerCochesVendedores(), $guardarCoche, $mostrarCoche), //$arrayUnico,
                 $multiple = false
             );
             $formularioIntroducir->showInput(
                 $type = "text",
                 $id = "created_at",
                 $name = "created_at",
-                $placeholder = "Fecha transacción (año/mes/dia)",
-                $label = "Fecha transacción (año/mes/dia):",
+                $placeholder = "Fecha transacción",
+                $label = "Fecha transacción:",
                 $validacion = $existeValidacion
             );
         ?>
@@ -96,6 +96,9 @@ if (!$errores && $existeValidacion) {
         $formularioIntroducir->datosRecibidos['idComprador'],
         $formularioIntroducir->datosRecibidos['created_at']
     );
+
+    //echo "var_dump created_at:<br>";
+    //var_dump($formularioIntroducir->datosRecibidos['created_at']);
 
     $idTransaccionCoche = $enviarTransaccion->enviarTransaccionCoche(
         'ii',

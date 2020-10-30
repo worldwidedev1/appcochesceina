@@ -1,5 +1,10 @@
 PENDIENTE
 
+SEGURIDAD:
+Fichero usuarios:           nok pendiente de implementar
+Fichero contraseñas:        nok pendiente de implementar
+Ficheros datos de negocio:  ok quedan almacenados en la BD del servidor
+
 CLASES:
 Formulario:                 ok
 Base de datos:              ok
@@ -8,17 +13,25 @@ FORMULARIOS:
 Introducir comprador:       ok, modificado para actualizar en cascada
 Introducir vendedor:        ok
 Introducir coches:          ok, modificado para añadir matricula
-Introducir transacción:     pendiente modificar introduccion formato fecha
+Introducir transacción:     ok, modificados los formatos de fecha para: 
+                                - introducción europea en formulario
+                                - cambio a SQL en almacenamiento
+                            nok pendiente seleccionar sólo:
+                                - vendedores que tengan coches sin vender
+                                - coches que no estén vendidos
+
 Vista comprador:            ok
 Vista vendedor:             ok, modificado para actualizar en cascada
 Vista coche:                ok, modificado para añadir matricula
-Vista transacción:          ok, ordenado por idTransaccion
+Vista transacción:          ok, ordenado por idTransaccion y modificado 
+                                el formato de fecha, cambiado de SQL a 
+                                a europeo para ser mostrado en la vista
 
 MEDIA:
 Introducir media:           
 
 ESTÉTICA:
-Visualización final:        mejorada, pendiente ocultar mostrar opciones
+Visualización final:        nok, mejorar visualización responsable
 
 BD:
 Coches:                     desmarcado NN del campo Compradores

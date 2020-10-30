@@ -44,6 +44,12 @@ include "./templates/body.php";
             // ...los datos en cada campo (columna)
             echo "<tr> ";
             foreach ($registro as $key => $campo) {
+                /*echo print_r($key);
+                echo "<br>";*/
+                //$resultados = print_r($key, true); // $resultados contiene ahora la salida de print_r
+                if($key == "fecha"){
+                    $campo = date("d/m/Y", strtotime($campo)); // convierte fecha SQL a formato europeo (d-m-Y)
+                }
                 echo "<td>" . $campo . "</td>";
             }
             echo "</tr>";

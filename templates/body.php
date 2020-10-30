@@ -18,7 +18,7 @@
                 <a class="button" href="./vista-compradores.php">Compradores</a>
                 <a class="button" href="./vista-vendedores.php">Vendedores</a>
                 <a class="button" href="./vista-personas.php">Personas</a>
-                <a class="button" href="./vista-transaccion.php">Transacciones</a>
+                <a class="button" href="./vista-transacciones.php">Transacciones</a>
             </div>
         </div>
     </div>
